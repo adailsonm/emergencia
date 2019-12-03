@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 SALT_WORK_FACTOR = 10;
 
@@ -19,6 +20,10 @@ const UserSchema = new Schema({
   telephone: {
     type: String,
     required: [true, "* Campo obrigatório!"]
+  },
+  type: {
+    type: String,
+    required: true
   }
 });
 
@@ -43,11 +48,8 @@ UserSchema.pre("save", function(next) {
   });
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
+UserSchema.methods.validatePassword = async function validatePassword(data) {
+  return bcrypt.compare(data, this.password);
 };
 
 const User = mongoose.model("UserSchema", UserSchema);

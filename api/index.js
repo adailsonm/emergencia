@@ -5,9 +5,9 @@ const mongoose = require("mongoose");
 
 // inicializar app express
 const app = express();
-
+require("dotenv-safe/config");
 app.get("/", function(req, res) {
-  res.send("END POINT INVÁLIDO!");
+  res.send("API Emergencia v1.0");
 });
 
 const routes = require("./routes/api");
@@ -31,5 +31,5 @@ let port = 3000;
 // servidor á escuta no porto 3000
 // 'process.env.port': caso usemos Heroku
 app.listen(process.env.port || port, () => {
-  console.log("Servidor em execução no porto: " + port);
+  console.log("Servidor em execução no porta: " + port);
 });
